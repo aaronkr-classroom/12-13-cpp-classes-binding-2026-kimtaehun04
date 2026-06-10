@@ -124,11 +124,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\9-cpp-generic-functions-2026-kimtaehun04\week9\median_T.h" />
+    <ClInclude Include="..\..\9-cpp-generic-functions-2026-kimtaehun04\week9\Student_info.h" />
+    <ClInclude Include="Core.h" />
+    <ClInclude Include="grad.h" />
     <ClInclude Include="Lis.h" />
     <ClInclude Include="Str.h" />
     <ClInclude Include="Vec.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Core.cpp" />
+    <ClCompile Include="grad.cpp" />
     <ClCompile Include="Lis_main.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>

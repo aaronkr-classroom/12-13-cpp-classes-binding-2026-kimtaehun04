@@ -124,10 +124,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\9-cpp-generic-functions-2026-kimtaehun04\week9\median_T.h" />
+    <ClInclude Include="..\..\9-cpp-generic-functions-2026-kimtaehun04\week9\median.h" />
     <ClInclude Include="..\..\9-cpp-generic-functions-2026-kimtaehun04\week9\Student_info.h" />
     <ClInclude Include="Core.h" />
     <ClInclude Include="grad.h" />
+    <ClInclude Include="grade.h" />
     <ClInclude Include="Lis.h" />
     <ClInclude Include="Str.h" />
     <ClInclude Include="Vec.h" />
@@ -135,9 +136,11 @@
   <ItemGroup>
     <ClCompile Include="Core.cpp" />
     <ClCompile Include="grad.cpp" />
-    <ClCompile Include="Lis_main.cpp">
+    <ClCompile Include="grade.cpp" />
+    <ClCompile Include="main.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="median.cpp" />
     <ClCompile Include="Str.cpp" />
     <ClCompile Include="Str_main.cpp" />
   </ItemGroup>

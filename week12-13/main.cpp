@@ -1,20 +1,89 @@
-﻿//Lis_main.cpp
+﻿﻿// main.cpp
+#include <algorithm>
+#include <iomanip>
+#include <ios>
 #include <iostream>
-#include "Lis.h"
+#include <stdexcept>
+#include <string>
+#include <vector>
+
+#include "Core.h"
+#include "Grad.h"
+#include "Vec.h"
+#include "Student_info.h"
+#include "median.h"
 
 using namespace std;
 
 int main() {
-	Lis<int> list;
-	list.push_back(1);
-	list.push_back(2);
-	list.push_back(3);
-	list.push_back(4); //end 포인터
+	vector<Core*> students; // 객체가 아닌 포인터를 저장
+	Core* record;
+	char ch;
+	string::size_type maxlen = 0;
 
-	for (Lis<int>::iteratror it = list.begin();
-		it != list.end(); ++it) {
-		cout << *it << " ";
+	cout << "Enter student data in the format: "
+		<< "U/G name midterm final (thesis) [homework]" << endl << endl
+		<< "  - U/G (select one) is U for Undergraduate (학부생) or G for Graduate (대학원생)" << endl
+		<< "  - (thesis) is only applicable for G (대학원생)" << endl
+		<< "  - [homework] is a list of int grades without []" << endl << endl
+		<< "Press CTRL+Z and ENTER twice to process." << endl << endl;
+
+	// 데이터 읽고 저장하기
+	while (cin >> ch) {
+		if (cin.eof()) break;  // Check for end of input
+
+		// Handle unexpected empty lines or malformed input
+		if (ch != 'U' && ch != 'G') {
+			// If the input is not a valid student type, skip it
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+			continue;
+		}
+
+		if (ch == 'U')
+			record = new Core; // Core 객체 할당
+		else
+			record = new Grad; // Grad 객체 할당
+		record->read(cin);
+
+		maxlen = max(maxlen, record->getName().size()); // 역참조
+		students.push_back(record);
 	}
-	cout << endl;
+
+	// 포인터로 동작하는 compare 함수를 전달
+	sort(students.begin(), students.end(), compare_Core_ptrs);
+
+	// 이름과 점수를 출력하기
+	for (vector<Core*>::size_type i = 0;
+		i != students.size(); i++) {
+
+		// Check the type of the student using dynamic_cast
+		if (dynamic_cast<Grad*>(students[i])) {
+			// It's a Grad student
+			cout << "(G) ";
+		}
+		else {
+			// It's an Undergrad student
+			cout << "(U) ";
+		}
+
+
+		// 함수를 호출하려고 포인터인 students[i]를 역참조
+		cout << students[i]->getName()
+			<< string(maxlen + 1
+				- students[i]->getName().size(), ' ');
+
+		try {
+			double final_grade = students[i]->grade(); // 역촘조
+			streamsize prec = cout.precision();
+			cout << setprecision(3) << final_grade
+				<< setprecision(prec) << endl;
+		}
+		catch (domain_error e) {
+			cout << e.what() << endl; // 예외 출력
+		}
+
+		delete students[i]; // 읽어 들인 객체의 할당을 헤제
+	}
+
 	return 0;
 }
